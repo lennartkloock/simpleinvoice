@@ -210,7 +210,7 @@
 
 	\renewcommand{\arraystretch}{1.5}
 	\begin{tabularx}{\textwidth}{X c c r}
-		\textbf{\csname INV@text@description\endcsname} & \textbf{\csname INV@text@itemprice\endcsname} & \hspace{10pt}\textbf{\csname INV@text@vat\endcsname}\hspace{10pt} & \textbf{\csname INV@text@itemtotal\endcsname} \\ \arrayrulecolor{linecolor}\hline
+		\textbf{\csname INV@text@description\endcsname} & \textbf{\csname INV@text@itemprice\endcsname} & \ifdef{\INV@content@vat}{\hspace{10pt}\textbf{\csname INV@text@vat\endcsname}}{}\hspace{10pt} & \textbf{\csname INV@text@itemtotal\endcsname} \\ \arrayrulecolor{linecolor}\hline
 		\ifdef{\INV@content@list}{\INV@content@list}{{\color{red} No Items yet} & & &}
 	\end{tabularx}
 
