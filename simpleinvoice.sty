@@ -32,9 +32,8 @@
 \def \INV@text@invdate@eng {Invoice date}
 \def \INV@text@deadline@eng {Deadline}
 \def \INV@text@description@eng {Description}
-\def \INV@text@itemprice@eng {Item price}
+\def \INV@text@amount@eng {Amount}
 \def \INV@text@vat@eng {VAT}
-\def \INV@text@itemtotal@eng {Sum}
 \def \INV@text@subtotal@eng {Subtotal}
 \def \INV@text@total@eng {Total}
 \def \INV@text@paymentinfo@eng {Payment info}
@@ -48,9 +47,8 @@
 \def \INV@text@invdate@fr {Date de facturation}
 \def \INV@text@deadline@fr {Date limite de paiement}
 \def \INV@text@description@fr {Description}
-\def \INV@text@itemprice@fr {Prix unitaire}
+\def \INV@text@amount@fr {Prix unitaire}
 \def \INV@text@vat@fr {TVA}
-\def \INV@text@itemtotal@fr {Montant}
 \def \INV@text@subtotal@fr {Sous-total}
 \def \INV@text@total@fr {Total}
 \def \INV@text@paymentinfo@fr {Informations de paiement}
@@ -64,9 +62,8 @@
 \def \INV@text@invdate@nobm {Fakturadato}
 \def \INV@text@deadline@nobm {Forfallsdato}
 \def \INV@text@description@nobm {Beskrivelse}
-\def \INV@text@itemprice@nobm {Enhetspris}
+\def \INV@text@amount@nobm {Enhetspris}
 \def \INV@text@vat@nobm {MVA}
-\def \INV@text@itemtotal@nobm {Sum}
 \def \INV@text@subtotal@nobm {MVA-grunnlag}
 \def \INV@text@total@nobm {Å betale}
 \def \INV@text@paymentinfo@nobm {Betalingsinformasjon}
@@ -80,9 +77,8 @@
 \def \INV@text@invdate@deu {Rechnungsdatum}
 \def \INV@text@deadline@deu {Fälligkeitsdatum}
 \def \INV@text@description@deu {Beschreibung}
-\def \INV@text@itemprice@deu {Einzelpreis}
+\def \INV@text@amount@deu {Einzelpreis}
 \def \INV@text@vat@deu {Mwst.}
-\def \INV@text@itemtotal@deu {Gesamt}
 \def \INV@text@subtotal@deu {Netto}
 \def \INV@text@total@deu {Brutto}
 \def \INV@text@paymentinfo@deu {Zahlungsinformationen}
@@ -98,9 +94,8 @@
 \def \INV@text@invdate {\csname INV@text@invdate@\INV@lang \endcsname}
 \def \INV@text@deadline {\csname INV@text@deadline@\INV@lang \endcsname}
 \def \INV@text@description {\csname INV@text@description@\INV@lang \endcsname}
-\def \INV@text@itemprice {\csname INV@text@itemprice@\INV@lang \endcsname}
+\def \INV@text@amount {\csname INV@text@amount@\INV@lang \endcsname}
 \def \INV@text@vat {\csname INV@text@vat@\INV@lang \endcsname}
-\def \INV@text@itemtotal {\csname INV@text@itemtotal@\INV@lang \endcsname}
 \def \INV@text@subtotal {\csname INV@text@subtotal@\INV@lang \endcsname}
 \def \INV@text@total {\csname INV@text@total@\INV@lang \endcsname}
 \def \INV@text@paymentinfo {\csname INV@text@paymentinfo@\INV@lang \endcsname}
@@ -168,7 +163,16 @@
 \newcommand{\setourref}[1]{\def \INV@content@ourref {#1}}
 \newcommand{\setinvoicedate}[1]{\def \INV@content@date {#1}}
 \newcommand{\setdeadline}[1]{\def \INV@content@deadline {\DayAfter[#1]}}
-\newcommand{\additem}[4]{\ifdef{\INV@content@list}{\appto \INV@content@list {\\ #1 & #2 \INV@text@currency & #3 \% & #4 \INV@text@currency}}{\def \INV@content@list {#1 & #2 \INV@text@currency& #3 \% & #4 \INV@text@currency}}}
+\newcommand{\additem}[2]{
+    \ifdef{\INV@content@list}
+        {\appto \INV@content@list {\\ #1 & #2 \INV@text@currency &}}
+        {\def \INV@content@list {#1 & #2 \INV@text@currency &}}
+}
+\newcommand{\addvatitem}[3]{
+    \ifdef{\INV@content@list}
+        {\appto \INV@content@list {\\ #1 & #2 \INV@text@currency & #3 \%}}
+        {\def \INV@content@list {#1 & #2 \INV@text@currency & #3 \%}}
+}
 \newcommand{\setsubtotal}[1]{\def \INV@content@subtotal {#1}}
 \newcommand{\setvat}[1]{\def \INV@content@vat {#1}}
 \newcommand{\settotal}[1]{\def \INV@content@total {#1}}
@@ -210,8 +214,8 @@
 
 	\renewcommand{\arraystretch}{1.5}
 	\begin{tabularx}{\textwidth}{X c c r}
-		\textbf{\csname INV@text@description\endcsname} & \textbf{\csname INV@text@itemprice\endcsname} & \ifdef{\INV@content@vat}{\hspace{10pt}\textbf{\csname INV@text@vat\endcsname}}{}\hspace{10pt} & \textbf{\csname INV@text@itemtotal\endcsname} \\ \arrayrulecolor{linecolor}\hline
-		\ifdef{\INV@content@list}{\INV@content@list}{{\color{red} No Items yet} & & &}
+		\textbf{\csname INV@text@description\endcsname} & \textbf{\csname INV@text@amount\endcsname} & \ifdef{\INV@content@vat}{\hspace{10pt}\textbf{\csname INV@text@vat\endcsname}}{}\\ \arrayrulecolor{linecolor}\hline
+		\ifdef{\INV@content@list}{\INV@content@list}{{\color{red} No Items yet} & &}
 	\end{tabularx}
 
 	\vspace{1.5cm}
